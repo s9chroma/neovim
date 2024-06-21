@@ -6,6 +6,9 @@ vim.g.maplocalleader = " "
 vim.opt.number = true
 -- vim.opt.relativenumber = true
 
+-- Disable swapfiles
+vim.opt.swapfile = false
+
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = "a"
 
@@ -314,6 +317,11 @@ require("lazy").setup({
 					--  To jump back, press <C-T>.
 					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
 
+					map("gD", function()
+						vim.cmd("vsplit")
+						require("telescope.builtin").lsp_definitions()
+					end, "[G]oto [D]efinition in vsplit")
+
 					-- Find references for the word under your cursor.
 					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
 
@@ -352,7 +360,7 @@ require("lazy").setup({
 
 					-- WARN: This is not Goto Definition, this is Goto Declaration.
 					--  For example, in C this would take you to the header
-					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+					map("gH", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
 					-- When you move your cursor, the highlights will be cleared (the second autocommand).
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
