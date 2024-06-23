@@ -68,6 +68,7 @@ vim.api.nvim_set_keymap("n", "<Leader>rc", ":e $MYVIMRC<CR>", { noremap = true }
 vim.api.nvim_set_keymap("n", "<Leader>Rc", ":tabe $MYVIMRC<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<Leader>w", ":up<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<Leader>q", ":q<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<S-u>", "<C-r>", { noremap = true, silent = true })
 
 -- Create the Rfinder command
 vim.api.nvim_create_user_command("Rfinder", function()
