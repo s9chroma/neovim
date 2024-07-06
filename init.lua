@@ -70,6 +70,13 @@ vim.api.nvim_set_keymap("n", "<Leader>w", ":up<CR>", { noremap = true, silent = 
 vim.api.nvim_set_keymap("n", "<Leader>q", ":q<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<S-u>", "<C-r>", { noremap = true, silent = true })
 
+-- Tabs control
+vim.api.nvim_set_keymap("n", "<Leader>n", ":tabnew<CR>", { noremap = true, silent = true })
+
+for i = 1, 9 do
+	vim.api.nvim_set_keymap("n", "<Leader>" .. i, i .. "gt", { noremap = true, silent = true })
+end
+
 -- Create the Rfinder command
 vim.api.nvim_create_user_command("Rfinder", function()
 	local path = vim.api.nvim_buf_get_name(0)
