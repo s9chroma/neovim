@@ -242,7 +242,11 @@ require("lazy").setup({
 				--     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
 				--   },
 				-- },
-				-- pickers = {}
+				pickers = {
+					colorscheme = {
+						enable_preview = true,
+					},
+				},
 				extensions = {
 					["ui-select"] = {
 						require("telescope.themes").get_dropdown(),
@@ -509,12 +513,12 @@ require("lazy").setup({
 	},
 
 	{ -- Colorscheme
-		"ellisonleao/gruvbox.nvim",
+		"nikolvs/vim-sunbather",
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
 			-- Load the colorscheme here
-			vim.cmd.colorscheme("gruvbox")
+			vim.cmd.colorscheme("sunbather")
 
 			-- You can configure highlights by doing something like
 			vim.cmd.hi("Comment gui=none")
@@ -531,6 +535,11 @@ require("lazy").setup({
 
 	{
 		"tpope/vim-surround",
+		event = "VeryLazy", -- optional, to load the plugin lazily
+	},
+
+	{
+		"tpope/vim-vinegar",
 		event = "VeryLazy", -- optional, to load the plugin lazily
 	},
 
