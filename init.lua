@@ -77,6 +77,32 @@ for i = 1, 9 do
 	vim.api.nvim_set_keymap("n", "<Leader>" .. i, i .. "gt", { noremap = true, silent = true })
 end
 
+-- Custom function to show only filenames in the tabline
+function _G.my_tabline()
+	local s = ""
+	for i = 1, vim.fn.tabpagenr("$") do
+		-- Get the filename for each tab
+		local buflist = vim.fn.tabpagebuflist(i)
+		local winnr = vim.fn.tabpagewinnr(i)
+		local bufname = vim.fn.bufname(buflist[winnr])
+		local filename = vim.fn.fnamemodify(bufname, ":t")
+
+		-- Set the format for the tabline
+		s = s .. "%" .. i .. "T"
+		if i == vim.fn.tabpagenr() then
+			s = s .. "%#TabLineSel#"
+		else
+			s = s .. "%#TabLine#"
+		end
+		s = s .. " " .. filename .. " "
+	end
+	s = s .. "%#TabLineFill#%T"
+	return s
+end
+
+-- Set the tabline to use the custom function
+vim.o.tabline = "%!v:lua.my_tabline()"
+
 -- Create the Rfinder command
 vim.api.nvim_create_user_command("Rfinder", function()
 	local path = vim.api.nvim_buf_get_name(0)
@@ -105,12 +131,6 @@ vim.keymap.set("n", "<leader>cl", ":lclose<CR>", { desc = "[C]lose location list
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-
--- TIP: Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -144,8 +164,7 @@ if not vim.loop.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
---
+-- ===PLUGINS===
 --  To check the current status of your plugins, run
 --    :Lazy
 --
@@ -153,18 +172,11 @@ vim.opt.rtp:prepend(lazypath)
 --
 --  To update plugins, you can run
 --    :Lazy update
---
--- NOTE: Here is where you install your plugins.
 require("lazy").setup({
 	-- "gc" to comment visual regions/lines
 	{ "numToStr/Comment.nvim", opts = {} },
 	{ "m4xshen/autoclose.nvim", opts = {} },
 
-	-- Here is a more advanced example where we pass configuration
-	-- options to `gitsigns.nvim`. This is equivalent to the following lua:
-	--    require('gitsigns').setup({ ... })
-	--
-	-- See `:help gitsigns` to understand what the configuration keys do
 	{ -- Adds git related signs to the gutter, as well as utilities for managing changes
 		"lewis6991/gitsigns.nvim",
 		opts = {
@@ -177,21 +189,6 @@ require("lazy").setup({
 			},
 		},
 	},
-
-	-- NOTE: Plugins can also be configured to run lua code when they are loaded.
-	--
-	-- This is often very useful to both group configuration, as well as handle
-	-- lazy loading plugins that don't need to be loaded immediately at startup.
-	--
-	-- For example, in the following configuration, we use:
-	--  event = 'VimEnter'
-	--
-	-- which loads which-key before all the UI elements are loaded. Events can be
-	-- normal autocommands events (`:help autocmd-events`).
-	--
-	-- Then, because we use the `config` key, the configuration only runs
-	-- after the plugin has been loaded:
-	--  config = function() ... end
 
 	{ -- Useful plugin to show you pending keybinds.
 		"folke/which-key.nvim",
@@ -577,15 +574,12 @@ require("lazy").setup({
 		config = function()
 			---@diagnostic disable-next-line: missing-fields
 			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "bash", "c", "html", "lua", "markdown", "vim", "vimdoc" },
+				ensure_installed = { "bash", "c", "html", "lua", "markdown", "vim", "vimdoc", "go" },
 				-- Autoinstall languages that are not installed
 				auto_install = true,
 				highlight = { enable = true },
-				indent = { enable = true },
+				-- indent = { enable = true }, -- Disabling this because it's messing up indentation of html files
 			})
 		end,
 	},
 })
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
