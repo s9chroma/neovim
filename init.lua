@@ -147,7 +147,15 @@ require("lazy").setup({
 			{ "nvim-telescope/telescope-ui-select.nvim" },
 		},
 		config = function()
+			local actions = require("telescope.actions")
 			require("telescope").setup({
+				defaults = {
+					mappings = {
+						i = {
+							["<Tab>"] = actions.close,
+						},
+					},
+				},
 				pickers = {
 					colorscheme = { enable_preview = true },
 				},
