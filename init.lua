@@ -86,6 +86,12 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right win
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
+-- Map leader + sf to make window full screen vertically
+vim.api.nvim_set_keymap("n", "<leader>sf", "<C-w>|", { noremap = true, silent = true })
+
+-- Map leader + ss to make all windows equal size
+vim.api.nvim_set_keymap("n", "<leader>af", "<C-w>=", { noremap = true, silent = true })
+
 -- Highlight when yanking
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
