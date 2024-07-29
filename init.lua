@@ -92,6 +92,12 @@ vim.api.nvim_set_keymap("n", "<leader>sf", "<C-w>|", { noremap = true, silent = 
 -- Map leader + ss to make all windows equal size
 vim.api.nvim_set_keymap("n", "<leader>af", "<C-w>=", { noremap = true, silent = true })
 
+-- Map Ctrl + to increase horizontal size of current split
+vim.api.nvim_set_keymap("n", "<leader>i", "7<C-w>>", { noremap = true, silent = true })
+
+-- Map Ctrl - to decrease horizontal size of current split
+vim.api.nvim_set_keymap("n", "<leader>I", "7<C-w><", { noremap = true, silent = true })
+
 -- Highlight when yanking
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
@@ -222,7 +228,7 @@ require("lazy").setup({
 					map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
 					map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
 					map(
-						"<leader>ws",
+						"<leader>Ws",
 						require("telescope.builtin").lsp_dynamic_workspace_symbols,
 						"[W]orkspace [S]ymbols"
 					)
